@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
-const routeRoutes = require('./routes/routeRoutes');
+require('dotenv').config();
 
-dotenv.config();
+const fareRoutes = require('./routes/fareRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -14,12 +14,9 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/api', routeRoutes);
+app.use('/api', fareRoutes);
 
-app.get('/', (req, res) => {
-  res.send('G! Backend is running');
-});
+app.get('/', (req, res) => res.send('G! backend is running'));
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Listen on all network interfaces to allow LAN access
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));
